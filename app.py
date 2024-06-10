@@ -28,6 +28,10 @@ app = Flask(__name__)
 # Load the model
 model = joblib.load(catboost_model_file)
 
+@app.route('/')
+def home():
+    return "Welcome to the House Price Prediction API. Use the /predict endpoint to make predictions."
+
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
