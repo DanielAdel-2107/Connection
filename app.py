@@ -4,6 +4,7 @@ from catboost import CatBoostRegressor
 from sklearn.model_selection import train_test_split
 import joblib
 from flask import Flask, request, jsonify
+import os
 
 # Load data and preprocess (as per your original script)
 df = pd.read_csv('kc_house_data.csv')
@@ -22,7 +23,7 @@ catboost_model_file = 'catboost_model.pkl'
 joblib.dump(catb_reg, catboost_model_file)
 
 # Create Flask application
-app = Flask(_name_)
+app = Flask(__name__)
 
 # Load the model
 model = joblib.load(catboost_model_file)
@@ -37,5 +38,6 @@ def predict():
     except Exception as e:
         return jsonify({'error': str(e)})
 
-if _name_ == '_main_':
-    app.run(debug=True)
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=True)
