@@ -35,11 +35,16 @@ def home():
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
+        # Get JSON data from request
         data = request.get_json()
+        # Extract features from JSON and convert to numpy array
         features = np.array(data['features']).reshape(1, -1)
+        # Predict using the loaded model
         prediction = model.predict(features)
+        # Return the prediction as JSON
         return jsonify({'prediction': prediction.tolist()})
     except Exception as e:
+        # Handle any errors that occur
         return jsonify({'error': str(e)})
 
 if __name__ == '__main__':
